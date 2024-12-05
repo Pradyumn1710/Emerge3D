@@ -103,9 +103,9 @@ export default function Home() {
     <main className="min-h-screen flex bg-black text-white">
       <div className="flex w-full h-screen">
         {/* Camera Card - 1/3 Width */}
-        <div className="w-1/3 bg-gray-800 p-6 flex flex-col">
+        <div className="w-1/3 bg-gray-900 p-6 flex flex-col">
           <h2 className="text-xl font-semibold mb-4">Camera</h2>
-          <div className="flex-grow relative">
+          <div className="flex-grow relative border border-gray-100 p-2">
             <video
               ref={videoRef}
               autoPlay
@@ -118,32 +118,42 @@ export default function Home() {
           <div className="mt-4">
             <button
               onClick={captureImage}
-              className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 w-full"
+              className=" text-white py-2 px-4 rounded-lg w-full bg-blue-300"
             >
               Capture Image
             </button>
           </div>
-          {capturedImage && (
+          {/* {capturedImage && (
             <div className="mt-4">
               <h3 className="text-lg font-semibold mb-2">Captured Image</h3>
               <img src={capturedImage} alt="Captured" className="w-32 h-32 object-cover rounded-md" />
             </div>
-          )}
+          )} */}
 
           <div className="mt-4">
-            <label
+            {/* <label
               htmlFor="image-upload"
-              className="bg-purple-500 text-white py-2 px-4 rounded-lg hover:bg-purple-600 cursor-pointer w-full text-center"
+              className=" text-white py-2 px-4 rounded-lg w-full"
             >
               Upload Image
-            </label>
+            </label> */}
+            {/* <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              className="text-white py-2 px-4 rounded-lg w-full bg-blue-300 "
+              onChange={handleUpload}
+            /> */}
+            <button className='text-white py-2 px-4 rounded-lg w-full bg-blue-300'>
             <input
               id="image-upload"
               type="file"
               accept="image/*"
-              className="hidden"
+              className=" hidden "
               onChange={handleUpload}
             />
+            Upload Image
+            </button>
           </div>
           {uploadedImage && (
             <div className="mt-4">
@@ -154,22 +164,22 @@ export default function Home() {
         </div>
 
         {/* 3D Image Generator - 2/3 Width */}
-        <div className="w-2/3 bg-gray-900 p-6 flex flex-col">
+        <div className="w-2/3  p-6 flex flex-col">
           <h2 className="text-xl font-semibold mb-4">3D Image Generator</h2>
-          <div className="flex-grow bg-gray-700 rounded-md mb-4 flex items-center justify-center">
+          <div className="flex-grow  rounded-md mb-4 flex items-center justify-center">
             {loading ? (
               <div className="flex items-center justify-center h-full w-full">
-                <div className="w-16 h-16 border-t-4 border-b-4 border-green-500 rounded-full animate-spin"></div>
+                <div className="w-16 h-16 border-t-4 border-b-4 border-blue-300 rounded-full animate-spin"></div>
               </div>
             ) : generatedImage ? (
               <ThreeDRenderer plyFile={generatedImage} />
             ) : (
-              <p className="text-gray-400">3D Model will appear here...</p>
+              <p className="border border-gray-100 p-72 text-gray-400">3D Model will appear here...</p>
             )}
           </div>
           <button
             onClick={generate3DImage}
-            className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 disabled:opacity-50"
+            className="bg-blue-300 text-white py-2 px-4 rounded-lg hover:bg-green-600 disabled:opacity-50"
             disabled={loading}
           >
             Generate 3D Image
