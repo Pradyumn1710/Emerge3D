@@ -1,30 +1,29 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
-const cors = require("cors");
-
 const app = express();
 const port = 4000;
-
-// Enable CORS
+const cors = require('cors');
 app.use(cors());
 
-// Middleware to parse JSON data
-app.use(bodyParser.json({ limit: "10mb" }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-// Endpoint to handle image upload
-app.post("/images", async (req, res) => {
+// Endpoint to process and save the image
+app.post("/images", (req, res) => {
   try {
-    const base64Image = req.body.image.split(";base64,").pop();
+    const { image, filename } = req.body; // Get both image and filename from the request
 
-    const dir = path.join(__dirname, "images");
-    const filename = `image-${Date.now()}.jpeg`;
-    const filepath = path.join(dir, filename);
+    if (!filename) {
+      return res.status(400).json({ error: "Filename is required" });
+    }
 
-    // Ensure the directory exists
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir);
+    const base64Image = image.split(";base64,").pop();
+    const filepath = path.join(__dirname, "images", filename); // Use the provided filename
+
+    // Ensure the images directory exists
+    if (!fs.existsSync(path.join(__dirname, "images"))) {
+      fs.mkdirSync(path.join(__dirname, "images"));
     }
 
     // Write the image file
@@ -41,5 +40,5 @@ app.post("/images", async (req, res) => {
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
